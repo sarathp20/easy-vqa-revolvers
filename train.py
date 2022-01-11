@@ -28,7 +28,7 @@ model.fit(
   train_Y,
   validation_data=([test_X_ims, test_X_seqs], test_Y),
   shuffle=True,
-  epochs=8,
+  epochs=10,
   callbacks=[checkpoint],
 )
 
