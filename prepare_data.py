@@ -15,13 +15,13 @@ def setup(use_data_dir):
     answers = [q[1] for q in qs]
     image_ids = [int(q[2]) for q in qs]
     return (texts, answers, image_ids)
-  train_qs, train_answers, train_image_ids = read_questions('convertcsv.json')
-  test_qs, test_answers, test_image_ids = read_questions('convertcsv.json')
+  train_qs, train_answers, train_image_ids = read_questions('qstn_ans_id_dataset.json')
+  test_qs, test_answers, test_image_ids = read_questions('qstn_ans_id_dataset.json')
   print(f'Read {len(train_qs)} training questions and {len(test_qs)} testing questions.')
 	
   print('\n--- Reading answers...')
   # Read answers from answers.txt
-  with open('answers.txt', 'r') as file:
+  with open('answers1.txt', 'r') as file:
     all_answers = [a.strip() for a in file]
   num_answers = len(all_answers)
   print(f'Found {num_answers} total answers:')
@@ -50,9 +50,9 @@ def setup(use_data_dir):
             paths[image_id] = os.path.join(dir, filename)
     return paths
 
-  train_ims = read_images(extract_paths('images'))
-  test_ims  = read_images(extract_paths('images'))
-  im_shape = train_ims[5].shape
+  train_ims = read_images(extract_paths('Img/S7ProjectDataset'))
+  test_ims  = read_images(extract_paths('Img/S7ProjectDataset'))
+  im_shape = train_ims[101].shape
   print(f'Read {len(train_ims)} training images and {len(test_ims)} testing images.')
   print(f'Each image has shape {im_shape}.')
 	
