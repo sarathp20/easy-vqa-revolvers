@@ -3,6 +3,7 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras.utils import to_categorical
 import json
 import os
+from text_extraction_using_bert_no_output import text_feature_extraction
 import numpy as np
 
 def setup(use_data_dir):
@@ -65,11 +66,14 @@ def setup(use_data_dir):
   print(f'Vocab Size: {vocab_size}')
   print(tokenizer.word_index)
 	
-  print('\n--- Converting questions to bags of words...')
-  train_X_seqs = tokenizer.texts_to_matrix(train_qs)
-  test_X_seqs = tokenizer.texts_to_matrix(test_qs)
-  print(f'Example question bag of words: {train_X_seqs[0]}')
+#   print('\n--- Converting questions to bags of words...')
+#   train_X_seqs = tokenizer.texts_to_matrix(train_qs)
+#   test_X_seqs = tokenizer.texts_to_matrix(test_qs)
+#   print(f'Example question bag of words: {train_X_seqs[0]}')
 
+  print("Performing feature extraction from text:")
+  train_X_seqs = text_feature_extraction(train_qs)
+  test_X_seqs = text_feature_extraction(test_qs)
 
   print('\n--- Creating model input images...')
   train_X_ims = np.array([train_ims[id] for id in train_image_ids])
