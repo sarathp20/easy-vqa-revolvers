@@ -84,7 +84,9 @@ def setup(use_data_dir):
   test_answer_indices = [all_answers.index(a) for a in test_answers]
   print("check==",len(train_answer_indices),len(test_answer_indices))
   train_Y = to_categorical(train_answer_indices)
+   #train_Y.reshape(len(train_X_seqs),768)
   test_Y = to_categorical(test_answer_indices,num_classes=323)
+  #test_Y.reshape(len(test_X_seqs),768)
   print(train_Y.shape,test_Y.shape)	
   print(f'Example model output: {train_Y[0]}')
 
