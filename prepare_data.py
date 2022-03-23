@@ -60,6 +60,16 @@ def setup(use_data_dir):
   print('\n--- Fitting question tokenizer...')
   tokenizer = Tokenizer()
   tokenizer.fit_on_texts(train_qs)
+"""
+The fit_on_texts method is a part of Keras tokenizer class which is used to update the internal vocabulary for the texts list. We need to call be before using other methods of texts_to_sequences or texts_to_matrix.
+
+The object returned by fit_on_texts can be used to derive more information by using the following attributes-
+word_counts : It is a dictionary of words along with the counts.
+word_docs : Again a dictionary of words, this tells us how many documents contain this word
+word_index : In this dictionary, we have unique integers assigned to each word.
+document_count : This integer count will tell us the total number of documents used for fitting the tokenizer.
+
+"""
 
     # We add one because the Keras Tokenizer reserves index 0 and never uses it.
   vocab_size = len(tokenizer.word_index) + 1
