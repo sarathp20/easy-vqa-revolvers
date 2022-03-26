@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1Sg8aEuGdUNp0bVanEuoSMi6KyGfxYA5K
 """
 
-!pip install simpletransformers
+
 
 from simpletransformers.language_representation import RepresentationModel
 def text_feature_extraction(sentences):
