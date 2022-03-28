@@ -14,6 +14,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
     x1 = MaxPooling2D()(x1)
   x1 = Flatten()(x1)
   x1 = Dense(32, activation='tanh')(x1)
+  print("shape of image vector=",x1.shape)
 
   # The question network
   q_input = Input(shape=(vocab_size,))
