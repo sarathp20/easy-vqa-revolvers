@@ -1,6 +1,17 @@
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, Flatten, Multiply
 from tensorflow.keras.optimizers import Adam
+import numpy as np 
+import matplotlib.pyplot as plt
+import glob
+import cv2
+
+from keras.models import Model, Sequential
+from keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
+from tensorflow.keras.layers import BatchNormalization
+import os
+import seaborn as sns
+from keras.applications.vgg16 import VGG16
 
 def build_model(im_shape, vocab_size, num_answers, big_model):
 #   # The CNN
