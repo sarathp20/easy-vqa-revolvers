@@ -25,17 +25,13 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 #     x1 = MaxPooling2D()(x1)
 #   x1 = Flatten()(x1)
   #Load model wothout classifier/fully connected layers
-  VGG_model = VGG16(weights='imagenet', include_top=False, input_shape=(SIZE, SIZE, 3))#256,256,3
+  x1 = VGG16(weights='imagenet', include_top=False, input_shape=(256, 256, 3))#256,256,3
 
   #Make loaded layers as non-trainable. This is important as we want to work with pre-trained weights
-  for layer in VGG_model.layers:
+  for layer in x1.layers:
 	  layer.trainable = False
     
-  #VGG_model.summary()  #Trainable parameters will be 0
 
-  feature_extractor=VGG_model.predict(x_train)
-
-  x1 = feature_extractor.reshape(feature_extractor.shape[0],-1)
   x1 = Dense(32, activation='tanh')(x1)
   print("shape of image vector=",x1.shape)
 
