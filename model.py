@@ -32,7 +32,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 # 	  layer.trainable = False
     
 
-  x1 = Dense(32, activation='tanh')(x1)
+#  x1 = Dense(32, activation='tanh')(x1)
 
 
   # The question network
