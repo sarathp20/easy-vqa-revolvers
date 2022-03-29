@@ -26,19 +26,32 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 #   x1 = Flatten()(x1)
 #   #Load model wothout classifier/fully connected layers
   x1 = VGG16(weights='imagenet', include_top=False, input_shape=(256, 256, 3))#256,256,3
-  print("model type=",type(x1)," Size=",x1.shape)
+  #width_shape = 256
+  #height_shape = 256
+
+  #image_input = Input(shape=(width_shape, height_shape, 3))
+  #x1 = ResNet50(input_tensor=image_input, include_top=False,weights='imagenet')
+  #print("model type=",type(x1)," Size=",x1.shape)
   #Make loaded layers as non-trainable. This is important as we want to work with pre-trained weights
 #   for layer in x1.layers:
 # 	  layer.trainable = False
     
+  x1=x1.output
 
-#  x1 = Dense(32, activation='tanh')(x1)
+  x1 = tf.keras.layers.Activation('relu', name='relu_conv1')(x1)
+  x1 = tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2), name='pool1')(x1)
+  x1 = tf.keras.layers.Convolution2D(3, 1, 1, name='conv2')(x1)
+  x1 = tf.keras.layers.Activation('relu', name='relu_conv2')(x1)
+  x1 = tf.keras.layers.GlobalAveragePooling2D()(x1)
+  x1= Dense(32, activation= 'tanh')(x1)
 
-
+  print("shape of x1",x1.shape)
   # The question network
   q_input = Input(shape=(vocab_size,))
   x2 = Dense(32, activation='tanh')(q_input)
   x2 = Dense(32, activation='tanh')(x2)
+  print("shape of x2",x2.shape)
+  print("type of x1 and x2", type(x1), type(x2))
 
   # Merge -> output
   out = Multiply()([x1, x2])
