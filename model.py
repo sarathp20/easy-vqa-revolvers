@@ -26,7 +26,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 #   x1 = Flatten()(x1)
 #   #Load model wothout classifier/fully connected layers
   x1 = VGG16(weights='imagenet', include_top=False, input_shape=(256, 256, 3))#256,256,3
-
+  print("model type=",type(x1)," Size=",x1.shape)
   #Make loaded layers as non-trainable. This is important as we want to work with pre-trained weights
 #   for layer in x1.layers:
 # 	  layer.trainable = False
