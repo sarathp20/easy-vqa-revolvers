@@ -16,7 +16,7 @@ from keras.applications.vgg16 import VGG16
 def build_model(im_shape, vocab_size, num_answers, big_model):
   # The CNN
   im_input = Input(shape=im_shape)
-#   x1 = Conv2D(8, 3, padding='same')(im_input)
+#   x1 = Conv2D(8, 3, padding='same')(im_input) 8-no of filters, 3-kernel/filter-size
 #   x1 = MaxPooling2D()(x1)
 #   x1 = Conv2D(16, 3, padding='same')(x1)
 #   x1 = MaxPooling2D()(x1)
