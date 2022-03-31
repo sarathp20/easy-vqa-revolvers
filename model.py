@@ -15,7 +15,7 @@ from keras.applications.vgg16 import VGG16
 
 def build_model(im_shape, vocab_size, num_answers, big_model):
   # The CNN
-#   im_input = Input(shape=im_shape)
+  im_input = Input(shape=im_shape)
 #   x1 = Conv2D(8, 3, padding='same')(im_input)
 #   x1 = MaxPooling2D()(x1)
 #   x1 = Conv2D(16, 3, padding='same')(x1)
@@ -25,7 +25,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 #     x1 = MaxPooling2D()(x1)
 #   x1 = Flatten()(x1)
 #   #Load model wothout classifier/fully connected layers
-  x1 = VGG16(weights='imagenet', include_top=False, input_shape=(256, 256, 3))#256,256,3
+  x1 = VGG16(weights='imagenet', include_top=False, input_shape=(250, 250, 3))(im_input)
   #width_shape = 256
   #height_shape = 256
 
@@ -35,8 +35,6 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
   #Make loaded layers as non-trainable. This is important as we want to work with pre-trained weights
 #   for layer in x1.layers:
 # 	  layer.trainable = False
-    
-  x1=x1.output
 
   x1 = tf.keras.layers.Activation('relu', name='relu_conv1')(x1)
   x1 = tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2), name='pool1')(x1)
