@@ -45,7 +45,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 
   print("shape of x1",x1.shape)
   # The question network
-  q_input = Input(shape=(vocab_size,))
+  q_input = Input(shape=(768,))
   x2 = Dense(32, activation='tanh')(q_input)
   x2 = Dense(32, activation='tanh')(x2)
   print("shape of x2",x2.shape)
