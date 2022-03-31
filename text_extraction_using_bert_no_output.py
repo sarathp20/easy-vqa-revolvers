@@ -24,8 +24,8 @@ def text_feature_extraction(sentences):
 
     print("sentence vector shape",sentence_vectors.shape)
 
-    print("sentence vector",sentence_vectors)
-    print("sentence vector[1]",sentence_vectors[1])
+    #print("sentence vector",sentence_vectors)
+    #print("sentence vector[1]",sentence_vectors[1])
 
 #     sentence_vectors[1]
     return sentence_vectors
