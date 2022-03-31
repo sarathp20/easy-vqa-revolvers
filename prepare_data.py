@@ -64,7 +64,6 @@ def setup(use_data_dir):
   # We add one because the Keras Tokenizer reserves index 0 and never uses it.
   vocab_size = len(tokenizer.word_index) + 1
   print(f'Vocab Size: {vocab_size}')
-  vocab_size=768
   print(tokenizer.word_index)
 	
 #   print('\n--- Converting questions to bags of words...')
