@@ -12,6 +12,7 @@ from tensorflow.keras.layers import BatchNormalization
 import os
 import seaborn as sns
 from keras.applications.vgg16 import VGG16
+from tensorflow.keras.applications.resnet50 import ResNet50
 
 def build_model(im_shape, vocab_size, num_answers, big_model):
   # The CNN
@@ -26,10 +27,8 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 #   x1 = Flatten()(x1)
 #   #Load model wothout classifier/fully connected layers
   x1 = VGG16(weights='imagenet', include_top=False, input_shape=(250, 250, 3))(im_input)
-  #width_shape = 256
-  #height_shape = 256
 
-  #image_input = Input(shape=(width_shape, height_shape, 3))
+  #image_input = Input(shape=(250, 250, 3))
   #x1 = ResNet50(input_tensor=image_input, include_top=False,weights='imagenet')
   #print("model type=",type(x1)," Size=",x1.shape)
   #Make loaded layers as non-trainable. This is important as we want to work with pre-trained weights
