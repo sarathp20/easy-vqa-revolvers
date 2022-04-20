@@ -16,13 +16,13 @@ def setup(use_data_dir):
     answers = [q[1] for q in qs]
     image_ids = [int(q[2]) for q in qs]
     return (texts, answers, image_ids)
-  train_qs, train_answers, train_image_ids = read_questions('qstn_ans_id_dataset.json')
-  test_qs, test_answers, test_image_ids = read_questions('test.json')
+  train_qs, train_answers, train_image_ids = read_questions('/content/drive/MyDrive/dataset/train_qstn_ans_id.json')
+  test_qs, test_answers, test_image_ids = read_questions('/content/drive/MyDrive/dataset/test_qstn_ans_id.json')
   print(f'Read {len(train_qs)} training questions and {len(test_qs)} testing questions.')
 	
   print('\n--- Reading answers...')
   # Read answers from answers.txt
-  with open('answers1.txt', 'r') as file:
+  with open('/content/drive/MyDrive/dataset/answers.txt', 'r') as file:
     all_answers = [a.strip() for a in file]
   num_answers = len(all_answers)
   print(f'Found {num_answers} total answers:')
@@ -46,14 +46,14 @@ def setup(use_data_dir):
   def extract_paths(dir):
     paths = {}
     for filename in os.listdir(dir):
-        if filename.endswith('.png'):
+        if filename.endswith('.PNG'):
             image_id = int(filename[:-4])
             paths[image_id] = os.path.join(dir, filename)
     return paths
 
-  train_ims = read_images(extract_paths('Img/S7ProjectDataset'))
-  test_ims  = read_images(extract_paths('Img/testImage'))
-  im_shape = train_ims[101].shape
+  train_ims = read_images(extract_paths('/content/drive/MyDrive/dataset/train_images'))
+  test_ims  = read_images(extract_paths('/content/drive/MyDrive/dataset/test_images'))
+  im_shape = train_ims[30101].shape
   print(f'Read {len(train_ims)} training images and {len(test_ims)} testing images.')
   print(f'Each image has shape {im_shape}.')
 	
