@@ -2,6 +2,7 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 import argparse
 from model import build_model
 from prepare_data import setup
+import matplotlib.pyplot as plt
 
 # Support command-line options
 parser = argparse.ArgumentParser()
@@ -23,7 +24,7 @@ checkpoint = ModelCheckpoint('model.h5', save_best_only=True)
 
 print('\n--- Training model...')
 print("checkpoint==",checkpoint)
-model.fit(
+history = model.fit(
   [train_X_ims, train_X_seqs],
   train_Y,
   validation_data=([test_X_ims, test_X_seqs], test_Y),
@@ -31,6 +32,22 @@ model.fit(
   epochs=20,
   callbacks=[checkpoint],
 )
+
+plt.plot(history.history['acc'])
+plt.plot(history.history['val_acc'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'val'], loc='upper left')
+plt.show()
+
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'val'], loc='upper left')
+plt.show()
 
 from sklearn.metrics import accuracy_score
 import numpy as np
