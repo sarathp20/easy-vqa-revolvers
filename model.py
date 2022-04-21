@@ -28,6 +28,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 #   #Load model wothout classifier/fully connected layers
   x1 = VGG16(weights='imagenet', include_top=False, input_shape=(250, 250, 3))(im_input)
   x1 = Dropout(0.5)(x1)
+  x1 = BatchNormalization(axis=1)(x1)
 
   #image_input = Input(shape=(250, 250, 3))
   #x1 = ResNet50(input_tensor=image_input, include_top=False,weights='imagenet')
@@ -38,19 +39,25 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 
   x1 = tf.keras.layers.Activation('relu', name='relu_conv1')(x1)
   x1 = Dropout(0.5)(x1)
+  x1 = BatchNormalization(axis=1)(x1)
   x1 = tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2), name='pool1')(x1)
   x1 = Dropout(0.5)(x1)
+  x1 = BatchNormalization(axis=1)(x1)
   x1 = tf.keras.layers.Convolution2D(3, 1, 1, name='conv2')(x1)
   x1 = Dropout(0.5)(x1)
+  x1 = BatchNormalization(axis=1)(x1)
   x1 = tf.keras.layers.Activation('relu', name='relu_conv2')(x1)
   x1 = Dropout(0.5)(x1)
+  x1 = BatchNormalization(axis=1)(x1)
   x1 = tf.keras.layers.GlobalAveragePooling2D()(x1)
   x1= Dense(512, activation= 'tanh')(x1)
-
+  print("test2")
   print("shape of x1",x1.shape)
   # The question network
   q_input = Input(shape=(768,))
   x2 = Dense(512, activation='tanh')(q_input)
+  x2 =Dropout(0.5)(x2)
+  x2 = BatchNormalization(axis=1)(x2)
   x2 = Dense(512, activation='tanh')(x2)
   print("shape of x2",x2.shape)
   print("type of x1 and x2", type(x1), type(x2))
@@ -71,7 +78,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
         IQ = tf.nn.dropout(IQ , rate=1 - (0.5))
     
     temp = Dense(1)(IQ)
-    
+    #temp = Dropout(0.5)(temp)
     temp = tf.reshape(temp , [-1,temp.shape[1]])
     print("temp shpe: ", temp.shape)
     
@@ -106,7 +113,8 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
   # Merge -> output
   # out = Multiply()([x1, x2])
   out = Dense(512, activation='tanh')(att)
-
+  out = Dropout(0.5)(out)
+  out = BatchNormalization(axis=1)(out)
   out = Dense(num_answers, activation='softmax')(out)
   print("out shape: ", out.shape)
   print("im_input shpe: ", im_input.shape)
