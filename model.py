@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, Flatten, Multiply
+from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, Flatten, Multiply, Dropout
 from tensorflow.keras.optimizers import Adam
 import numpy as np 
 import matplotlib.pyplot as plt
@@ -27,6 +27,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 #   x1 = Flatten()(x1)
 #   #Load model wothout classifier/fully connected layers
   x1 = VGG16(weights='imagenet', include_top=False, input_shape=(250, 250, 3))(im_input)
+  x1 = Dropout(0.5)(x1)
 
   #image_input = Input(shape=(250, 250, 3))
   #x1 = ResNet50(input_tensor=image_input, include_top=False,weights='imagenet')
@@ -36,9 +37,13 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 #     layer.trainable = False
 
   x1 = tf.keras.layers.Activation('relu', name='relu_conv1')(x1)
+  x1 = Dropout(0.5)(x1)
   x1 = tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2), name='pool1')(x1)
+  x1 = Dropout(0.5)(x1)
   x1 = tf.keras.layers.Convolution2D(3, 1, 1, name='conv2')(x1)
+  x1 = Dropout(0.5)(x1)
   x1 = tf.keras.layers.Activation('relu', name='relu_conv2')(x1)
+  x1 = Dropout(0.5)(x1)
   x1 = tf.keras.layers.GlobalAveragePooling2D()(x1)
   x1= Dense(512, activation= 'tanh')(x1)
 
@@ -101,6 +106,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
   # Merge -> output
   # out = Multiply()([x1, x2])
   out = Dense(512, activation='tanh')(att)
+
   out = Dense(num_answers, activation='softmax')(out)
   print("out shape: ", out.shape)
   print("im_input shpe: ", im_input.shape)
