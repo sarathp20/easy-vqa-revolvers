@@ -1,4 +1,4 @@
-from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 import argparse
 from model import build_model
 # from prepare_data import setup
@@ -32,6 +32,7 @@ with np.load('temp_arra.npz') as data:
 print('\n--- Building model...')
 model = build_model(im_shape, vocab_size, num_answers, args.big_model)
 checkpoint = ModelCheckpoint('model.h5', save_best_only=True)
+# early_stop = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5)
 
 print('\n--- Training model...')
 print("checkpoint==",checkpoint)
@@ -44,31 +45,36 @@ history = model.fit(
   callbacks=[checkpoint],
 )
 
-plt.plot(history.history['accuracy'])
-plt.plot(history.history['val_accuracy'])
-plt.title('model accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'val'], loc='upper left')
-plt.show()
+print("acc = ", history.history['accuracy'])
+print("val_acc = ", history.history['val_accuracy'])
+print("loss = ", history.history['loss'])
+print("val_loss = ", history.history['val_loss'])
 
-plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
-plt.title('model loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'val'], loc='upper left')
-plt.show()
+# plt.plot(history.history['accuracy'])
+# plt.plot(history.history['val_accuracy'])
+# plt.title('model accuracy')
+# plt.ylabel('accuracy')
+# plt.xlabel('epoch')
+# plt.legend(['train', 'val'], loc='upper left')
+# plt.show()
 
-from sklearn.metrics import accuracy_score
-import numpy as np
-from sklearn.metrics import confusion_matrix
+# plt.plot(history.history['loss'])
+# plt.plot(history.history['val_loss'])
+# plt.title('model loss')
+# plt.ylabel('loss')
+# plt.xlabel('epoch')
+# plt.legend(['train', 'val'], loc='upper left')
+# plt.show()
 
-y_pred = model.predict([test_X_ims, test_X_seqs])
-y_pred=np.argmax(y_pred, axis=1)
-y_test=np.argmax(test_Y, axis=1)
-cm = confusion_matrix(y_test, y_pred)
-print(cm)
-# evaluate predictions
-accuracy = accuracy_score(y_test, y_pred)
-print('Accuracy: %.3f' % (accuracy * 100))
+# from sklearn.metrics import accuracy_score
+# import numpy as np
+# from sklearn.metrics import confusion_matrix
+
+# y_pred = model.predict([test_X_ims, test_X_seqs])
+# y_pred=np.argmax(y_pred, axis=1)
+# y_test=np.argmax(test_Y, axis=1)
+# cm = confusion_matrix(y_test, y_pred)
+# print(cm)
+# # evaluate predictions
+# accuracy = accuracy_score(y_test, y_pred)
+# print('Accuracy: %.3f' % (accuracy * 100))
