@@ -1,8 +1,9 @@
 from tensorflow.keras.callbacks import ModelCheckpoint
 import argparse
 from model import build_model
-from prepare_data import setup
+# from prepare_data import setup
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Support command-line options
 parser = argparse.ArgumentParser()
@@ -15,8 +16,18 @@ if args.big_model:
 if args.use_data_dir:
   print('Using data directory')
 
-# Prepare data
-train_X_ims, train_X_seqs, train_Y, test_X_ims, test_X_seqs, test_Y, im_shape, vocab_size, num_answers, _, _, _ = setup(args.use_data_dir)
+# # Prepare data
+# train_X_ims, train_X_seqs, train_Y, test_X_ims, test_X_seqs, test_Y, im_shape, vocab_size, num_answers, _, _, _ = setup(args.use_data_dir)
+with np.load('temp_arra.npz') as data:
+    train_X_ims = data['train_X_ims'] 
+    train_X_seqs = data['train_X_seqs'] 
+    train_Y = data['train_Y'] 
+    test_X_ims = data['test_X_ims'] 
+    test_X_seqs = data['test_X_seqs']
+    test_Y = data['test_Y'] 
+    im_shape = data['im_shape'] 
+    vocab_size = data['vocab_size'] 
+    num_answers = data['num_answers']
 
 print('\n--- Building model...')
 model = build_model(im_shape, vocab_size, num_answers, args.big_model)
