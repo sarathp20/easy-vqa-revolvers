@@ -41,7 +41,6 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
   x1 = Dropout(0.6)(x1)
   x1 = BatchNormalization(axis=1)(x1)
   x1 = tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2), name='pool1')(x1)
-  x1 = Dropout(0.6)(x1)
   x1 = BatchNormalization(axis=1)(x1)
   x1 = tf.keras.layers.Convolution2D(3, 1, 1, name='conv2')(x1)
   x1 = Dropout(0.6)(x1)
