@@ -27,7 +27,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 #   x1 = Flatten()(x1)
 #   #Load model wothout classifier/fully connected layers
   x1 = VGG16(weights='imagenet', include_top=False, input_shape=(250, 250, 3))(im_input)
-  x1 = Dropout(0.6)(x1)
+  x1 = Dropout(0.5)(x1)
   x1 = BatchNormalization(axis=1)(x1)
 
   #image_input = Input(shape=(250, 250, 3))
@@ -38,25 +38,31 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
 #     layer.trainable = False
 
   x1 = tf.keras.layers.Activation('relu', name='relu_conv1')(x1)
-  x1 = Dropout(0.6)(x1)
+  x1 = Dropout(0.7)(x1)
   x1 = BatchNormalization(axis=1)(x1)
   x1 = tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(2, 2), name='pool1')(x1)
+  
   x1 = BatchNormalization(axis=1)(x1)
   x1 = tf.keras.layers.Convolution2D(3, 1, 1, name='conv2')(x1)
-  x1 = Dropout(0.6)(x1)
+  x1 = Dropout(0.7)(x1)
   x1 = BatchNormalization(axis=1)(x1)
-  x1 = tf.keras.layers.Activation('relu', name='relu_conv2')(x1)
-  x1 = Dropout(0.6)(x1)
+
+
+  x1 = tf.keras.layers.Activation('relu', name='relu_conv3')(x1)
+  x1 = Dropout(0.7)(x1)
   x1 = BatchNormalization(axis=1)(x1)
   x1 = tf.keras.layers.GlobalAveragePooling2D()(x1)
   x1= Dense(512, activation= 'tanh')(x1)
+  print("test2")
   print("shape of x1",x1.shape)
   # The question network
   q_input = Input(shape=(768,))
   x2 = Dense(512, activation='tanh')(q_input)
-  x2 =Dropout(0.6)(x2)
+  x2 =Dropout(0.7)(x2)
   x2 = BatchNormalization(axis=1)(x2)
   x2 = Dense(512, activation='tanh')(x2)
+
+
   print("shape of x2",x2.shape)
   print("type of x1 and x2", type(x1), type(x2))
 
@@ -95,6 +101,8 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
   att_l1 , att = attention(x1, x2)
     
   att_l2 , att = attention(x1, att)
+
+  att_l3 , att = attention(x1, att)
     
   att = tf.nn.dropout(att , rate=1 - (0.4))
     
@@ -111,7 +119,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
   # Merge -> output
   # out = Multiply()([x1, x2])
   out = Dense(512, activation='tanh')(att)
-  out = Dropout(0.6)(out)
+  out = Dropout(0.7)(out)
   out = BatchNormalization(axis=1)(out)
   out = Dense(num_answers, activation='softmax')(out)
   print("out shape: ", out.shape)
@@ -121,5 +129,3 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
   model.compile(Adam(lr=5e-4), loss='categorical_crossentropy', metrics=['accuracy'])
 
   return model
-
-
