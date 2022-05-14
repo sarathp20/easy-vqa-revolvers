@@ -95,10 +95,6 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
   att_l1 , att = attention(x1, x2)
     
   att_l2 , att = attention(x1, att)
-
-  att_l3 , att = attention(x1, att)
-
-  att_l4 , att = attention(x1, att)
     
   att = tf.nn.dropout(att , rate=1 - (0.4))
     
@@ -110,7 +106,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
     
   print(att.shape)
     
-  attention_layers = [att_l1 , att_l2, att_l3,att_l4]
+  attention_layers = [att_l1 , att_l2]
 
   # Merge -> output
   # out = Multiply()([x1, x2])
@@ -122,7 +118,7 @@ def build_model(im_shape, vocab_size, num_answers, big_model):
   print("im_input shpe: ", im_input.shape)
 
   model = Model(inputs=[im_input, q_input], outputs=out)
-  model.compile(Adam(lr=4e-4), loss='categorical_crossentropy', metrics=['accuracy'])
+  model.compile(Adam(lr=5e-4), loss='categorical_crossentropy', metrics=['accuracy'])
 
   return model
 
