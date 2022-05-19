@@ -16,8 +16,8 @@ def setup(use_data_dir):
     answers = [q[1] for q in qs]
     image_ids = [int(q[2]) for q in qs]
     return (texts, answers, image_ids)
-  train_qs, train_answers, train_image_ids = read_questions('/content/drive/MyDrive/dataset2/training_sheet.json')
-  test_qs, test_answers, test_image_ids = read_questions('/content/drive/MyDrive/dataset2/testing_sheet.json')
+  train_qs, train_answers, train_image_ids = read_questions('/content/drive/MyDrive/dataset2/Training_augment_sheet.json')
+  test_qs, test_answers, test_image_ids = read_questions('/content/drive/MyDrive/dataset2/Testing_augment_sheet.json')
   print(f'Read {len(train_qs)} training questions and {len(test_qs)} testing questions.')
 	
   print('\n--- Reading answers...')
@@ -53,7 +53,7 @@ def setup(use_data_dir):
 
   train_ims = read_images(extract_paths('/content/drive/MyDrive/dataset2/training_images'))
   test_ims  = read_images(extract_paths('/content/drive/MyDrive/dataset2/testing_image'))
-  im_shape = train_ims[30101].shape
+  im_shape = train_ims[3010101].shape
   print(f'Read {len(train_ims)} training images and {len(test_ims)} testing images.')
   print(f'Each image has shape {im_shape}.')
 	
