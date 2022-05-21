@@ -17,7 +17,7 @@ def setup(use_data_dir):
     image_ids = [int(q[2]) for q in qs]
     return (texts, answers, image_ids)
   train_qs, train_answers, train_image_ids = read_questions('/content/drive/MyDrive/dataset1/training_sheet.json')
-  test_qs, test_answers, test_image_ids = read_questions('/content/drive/MyDrive/dataset2/testing_sheet.json')
+  test_qs, test_answers, test_image_ids = read_questions('/content/drive/MyDrive/dataset1/testing_sheet.json')
   print(f'Read {len(train_qs)} training questions and {len(test_qs)} testing questions.')
 	
   print('\n--- Reading answers...')
